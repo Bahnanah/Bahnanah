@@ -1,92 +1,121 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Tarefas Profissional</title>
-    <!-- Corrigido para style.css -->
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Lista de Tarefas</h1>
-        </header>
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        <main>
-            <section class="task-input">
-                <form id="form-tarefa">
-                    <input type="text" id="nova-tarefa" placeholder="Adicione uma nova tarefa..." required>
-                    <button type="submit">Adicionar</button>
-                </form>
-            </section>
+/* Corpo da página */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f3fc;
+    color: #333;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    padding-top: 50px;
+}
 
-            <section class="task-list">
-                <ul id="lista-tarefas">
-                    <!-- Tarefas serão adicionadas aqui -->
-                </ul>
-            </section>
-        </main>
-    </div>
+/* Container principal */
+.container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(108, 74, 183, 0.1);
+    max-width: 500px;
+    width: 100%;
+}
 
-    <script>
-        const form = document.getElementById('form-tarefa');
-        const lista = document.getElementById('lista-tarefas');
-        const input = document.getElementById('nova-tarefa');
+/* Título */
+h1 {
+    text-align: center;
+    color: #6c4ab7;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
 
-        // Carrega tarefas salvas ao abrir a página
-        document.addEventListener('DOMContentLoaded', carregarTarefasSalvas);
+/* Formulário */
+form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
 
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const texto = input.value.trim();
-            if (texto !== '') {
-                adicionarTarefa(texto);
-                salvarTarefas();
-                input.value = '';
-            }
-        });
+input[type="text"] {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #cbb8f2;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #faf8fe;
+}
 
-        function adicionarTarefa(texto, concluida = false) {
-            const li = document.createElement('li');
-            li.textContent = texto;
+input[type="text"]:focus {
+    outline: none;
+    border-color: #6c4ab7;
+}
 
-            // Marcar como concluída com clique
-            li.onclick = () => {
-                li.classList.toggle('concluida');
-                salvarTarefas();
-            };
+/* Botão Adicionar */
+button[type="submit"] {
+    padding: 12px 20px;
+    background-color: #6c4ab7;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
-            // Botão remover
-            const btnRemover = document.createElement('button');
-            btnRemover.textContent = 'Remover';
-            btnRemover.className = 'btn-remover';
-            btnRemover.onclick = (e) => {
-                e.stopPropagation(); // Evita marcar como concluída ao remover
-                li.remove();
-                salvarTarefas();
-            };
+button[type="submit"]:hover {
+    background-color: #5939a5;
+}
 
-            li.appendChild(btnRemover);
-            if (concluida) li.classList.add('concluida');
-            lista.appendChild(li);
-        }
+/* Lista de Tarefas */
+ul {
+    list-style: none;
+    padding-left: 0;
+}
 
-        function salvarTarefas() {
-            const tarefas = [];
-            lista.querySelectorAll('li').forEach(li => {
-                tarefas.push({
-                    texto: li.firstChild.textContent,
-                    concluida: li.classList.contains('concluida')
-                });
-            });
-            localStorage.setItem('tarefas', JSON.stringify(tarefas));
-        }
+li {
+    background-color: #f2ecfc;
+    border: 1px solid #e1d7f7;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
-        function carregarTarefasSalvas() {
-            const tarefasSalvas = JSON.parse(localStorage.getItem('tarefas')) || [];
-            tarefasSalvas.forEach(tarefa => adicionarTarefa(tarefa.texto, tarefa.concluida));
-        }
-    </script>
-</body>
-</html>
+li:hover {
+    background-color: #ebe0fa;
+}
+
+/* Tarefa marcada como concluída */
+.concluida {
+    text-decoration: line-through;
+    color: #888;
+    opacity: 0.6;
+    background-color: #e7dbf9;
+}
+
+/* Botão Remover */
+.btn-remover {
+    background-color: #b452a6;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
+
+.btn-remover:hover {
+    background-color: #992f8a;
+}
